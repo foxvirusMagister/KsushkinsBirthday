@@ -77,7 +77,7 @@ class _LoadingScreen extends State<LoadingScreen>
     Future.delayed(Duration(seconds: 2, milliseconds: 500), (){
       if (mounted)
       {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const gs.LoadingScreen()));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const gs.Letter()));
       }
       });
     
@@ -99,29 +99,28 @@ class _LoadingScreen extends State<LoadingScreen>
             lengthBetweenBS: 1
           ),
           child: Column(
+            mainAxisAlignment: .spaceEvenly,
+            mainAxisSize: .max,
             children: [
-              Expanded(
-                child: Center(
-                  child: AnimatedDefaultTextStyle(
-                    style: TextStyle(color: textColor,
-                    fontSize: 50),
-                    duration: Duration(milliseconds: 500),
-                    child: Text("ЗАГРУЗКА...")
-                    ),
+              Center(
+                child: AnimatedDefaultTextStyle(
+                  style: TextStyle(color: textColor,
+                  fontSize: 50,
+                  fontFamily: "JulyMelt"),
+                  duration: Duration(milliseconds: 500),
+                  child: Text("ЗАГРУЗКА...")
                   ),
                 ),
-              Expanded(
-                child: Align(
-                alignment: Alignment.centerLeft,
-                child: AnimatedContainer( // bar container
-                  width: length,
-                  height: 100, 
-                  color: Color.fromARGB(255 - transparent, (255 * textColor.r).toInt(), (255 * textColor.g).toInt(), (255 * textColor.b).toInt()),
-                  duration: Duration(seconds: durationOfAnim, milliseconds: durationOfAnimMilliseconds),
-                  curve: Curves.easeInOut
-                ),
-                            ),
-              )
+              Align(
+              alignment: Alignment.centerLeft,
+              child: AnimatedContainer( // bar container
+                width: length,
+                height: 100, 
+                color: Color.fromARGB(255 - transparent, (255 * textColor.r).toInt(), (255 * textColor.g).toInt(), (255 * textColor.b).toInt()),
+                duration: Duration(seconds: durationOfAnim, milliseconds: durationOfAnimMilliseconds),
+                curve: Curves.easeInOut
+              ),
+                          )
             ],
           ),
         ),
