@@ -14,11 +14,7 @@ class LoadingScreen extends StatefulWidget // widget of loading screen
 
 class _LoadingScreen extends State<LoadingScreen>
 {
-  double length = 0;
-  int transparent = 0;
-  int durationOfAnim = 2;
-  int durationOfAnimMilliseconds = 0;
-  Color textColor = const Color.fromARGB(255, 0, 0, 0);
+  Color textColor = const Color.fromARGB(255, 0, 0, 255);
   String text = "ЗАГРУЗКА...";
 
   @override
@@ -61,19 +57,6 @@ class _LoadingScreen extends State<LoadingScreen>
     changeColors();
     Timer.periodic(Duration(seconds: 1, milliseconds: 500), (timer){changeColors();});
     if (!mounted) {return;}
-    setState(() {
-      length = MediaQuery.of(context).size.width;
-    });
-    Future.delayed(Duration(seconds: 1, milliseconds: 500), (){
-      if (mounted)
-      {
-        setState(() {
-          transparent = 255;
-          durationOfAnim = 0;
-          durationOfAnimMilliseconds = 500;
-        });
-      }
-      });
     Future.delayed(Duration(seconds: 2, milliseconds: 500), (){
       if (mounted)
       {
@@ -113,14 +96,19 @@ class _LoadingScreen extends State<LoadingScreen>
                 ),
               Align(
               alignment: Alignment.centerLeft,
-              child: AnimatedContainer( // bar container
-                width: length,
-                height: 100, 
-                color: Color.fromARGB(255 - transparent, (255 * textColor.r).toInt(), (255 * textColor.g).toInt(), (255 * textColor.b).toInt()),
-                duration: Duration(seconds: durationOfAnim, milliseconds: durationOfAnimMilliseconds),
-                curve: Curves.easeInOut
+              child: LinearProgressIndicator(
+                backgroundColor: Color.fromRGBO((180 * textColor.r).toInt(), (180 * textColor.g).toInt(), (180 * textColor.b).toInt(), 1),
+                minHeight: 60,
+                valueColor: AlwaysStoppedAnimation<Color>(textColor),
+                
               ),
-                          )
+              //child: AnimatedContainer( // bar container
+                //width: length,
+                //height: 100, 
+                //color: Color.fromARGB(255 - transparent, (255 * textColor.r).toInt(), (255 * textColor.g).toInt(), (255 * textColor.b).toInt()),
+                //duration: Duration(seconds: durationOfAnim, milliseconds: durationOfAnimMilliseconds),
+                //curve: Curves.easeInOut
+              ),
             ],
           ),
         ),
