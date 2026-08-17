@@ -14,7 +14,7 @@ class LoadingScreen extends StatefulWidget // widget of loading screen
 
 class _LoadingScreen extends State<LoadingScreen>
 {
-  Color textColor = const Color.fromARGB(255, 0, 0, 255);
+  Color textColor = const Color.fromARGB(255, 180, 180, 111);
   String text = "ЗАГРУЗКА...";
 
   @override
@@ -30,7 +30,7 @@ class _LoadingScreen extends State<LoadingScreen>
         if (mounted)
         {
           setState((){
-            textColor = const Color.fromARGB(255, 255, 0, 0);
+            textColor = const Color.fromARGB(255, 148, 148, 78);
           });
         }
       });
@@ -38,15 +38,7 @@ class _LoadingScreen extends State<LoadingScreen>
         if (mounted)
         {
           setState((){
-            textColor = const Color.fromARGB(255, 0, 255, 0);
-          });
-        }
-      });
-      Future.delayed(Duration(milliseconds: 1500), ()async{
-        if (mounted)
-        {
-          setState((){
-            textColor = const Color.fromARGB(255, 0, 0, 255);
+            textColor = const Color.fromARGB(255, 180, 180, 111);
           });
         }
       });
@@ -55,7 +47,7 @@ class _LoadingScreen extends State<LoadingScreen>
   Future<void> _loadingStart() async
   {
     changeColors();
-    Timer.periodic(Duration(seconds: 1, milliseconds: 500), (timer){changeColors();});
+    Timer.periodic(Duration(seconds: 1), (timer){changeColors();});
     if (!mounted) {return;}
     Future.delayed(Duration(seconds: 2, milliseconds: 500), (){
       if (mounted)
@@ -97,7 +89,7 @@ class _LoadingScreen extends State<LoadingScreen>
               Align(
               alignment: Alignment.centerLeft,
               child: LinearProgressIndicator(
-                backgroundColor: Color.fromRGBO((180 * textColor.r).toInt(), (180 * textColor.g).toInt(), (180 * textColor.b).toInt(), 1),
+                backgroundColor: Color.fromRGBO((210 * textColor.r).toInt(), (210 * textColor.g).toInt(), (210 * textColor.b).toInt(), 1),
                 minHeight: 60,
                 valueColor: AlwaysStoppedAnimation<Color>(textColor),
                 
