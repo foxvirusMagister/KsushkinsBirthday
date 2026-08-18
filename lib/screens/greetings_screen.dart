@@ -35,7 +35,7 @@ class _Letter extends State<Letter>
   void initState()
   {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_){preloadImages();});
+    WidgetsBinding.instance.addPostFrameCallback((_)async{preloadImages();});
     _shakeDetector = ShakeDetector.autoStart(
       onPhoneShake: (event) {
         if (mounted)
@@ -80,13 +80,13 @@ class _Letter extends State<Letter>
       await precacheImage(const AssetImage("lib/Images/Papirus.png"), context);
       await precacheImage(const AssetImage("lib/Images/Papirus2.png"), context);
 
-      await player.play(AssetSource("lib/Sounds/Ocean.mp3"), volume: 0.3);
+      await player.play(AssetSource("Sounds/Ocean.mp3"), volume: 0.3);
     }
   }
 
   Future<void> upplyTimers() async
   {
-    Timer.periodic(Duration(milliseconds: 25), (_timer){
+    Timer.periodic(Duration(milliseconds: 25), (_timer)async{
       if (mounted && distance <= MediaQuery.of(context).size.height / 6)
       {
         setState(() {
@@ -96,7 +96,7 @@ class _Letter extends State<Letter>
       else
       {
         _timer.cancel();
-        soundPlayer.play(AssetSource("lib/Sounds/cap.mp3"));
+        await soundPlayer.play(AssetSource("Sounds/cap.mp3"), volume: 0.6);
         if (mounted)
         {
           setState(() {
@@ -173,7 +173,7 @@ class _Letter extends State<Letter>
               duration: Duration(milliseconds: 500),
               child: Container(
                 decoration: BoxDecoration(
-                  image: DecorationImage(image: page % 2 == 1 ? AssetImage("lib/Images/Papirus.png") : AssetImage("lib/Images/Papirus2.png"),
+                  image: DecorationImage(image: page % 2 == 1 ? AssetImage("lib/Images/Papirus.png") : AssetImage("lib/Images/Papirus2.webp"),
                   fit: .fill)
                 ),
                 width: MediaQuery.of(context).size.width,
@@ -188,10 +188,10 @@ class _Letter extends State<Letter>
                       side: WidgetStatePropertyAll(BorderSide.none),
                       shape: WidgetStatePropertyAll(BeveledRectangleBorder(borderRadius: BorderRadiusGeometry.all(Radius.zero)))
                     ),
-                    onPressed: (){
+                    onPressed: ()async{
                       if (bottleOpacity == 1)
                       {
-                        soundPlayer.play(AssetSource("lib/Sounds/page.mp3"));
+                        await soundPlayer.play(AssetSource("Sounds/page.mp3"), volume: 0.6);
                         setState(() {
                           page += 1;
                         });

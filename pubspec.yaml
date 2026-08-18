@@ -80,9 +80,9 @@ flutter:
     - lib/Images/Papirus.png
     - lib/Images/Papirus2.webp
     - lib/Images/heart.jpg
-    - lib/Sounds/Ocean.mp3
-    - lib/Sounds/cap.mp3
-    - lib/Sounds/page.mp3
+    - assets/Sounds/Ocean.mp3
+    - assets/Sounds/cap.mp3
+    - assets/Sounds/page.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
