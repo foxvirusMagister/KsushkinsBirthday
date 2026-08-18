@@ -83,6 +83,7 @@ flutter:
     - assets/Sounds/Ocean.mp3
     - assets/Sounds/cap.mp3
     - assets/Sounds/page.mp3
+    - assets/Sounds/hbdty.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

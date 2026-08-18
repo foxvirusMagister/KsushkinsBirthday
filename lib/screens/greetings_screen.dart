@@ -30,6 +30,7 @@ class _Letter extends State<Letter>
   int page = 1;
   final player = AudioPlayer();
   final soundPlayer = AudioPlayer();
+  bool musicPlaying = false;
 
   @override
   void initState()
@@ -191,7 +192,17 @@ class _Letter extends State<Letter>
                     onPressed: ()async{
                       if (bottleOpacity == 1)
                       {
-                        await soundPlayer.play(AssetSource("Sounds/page.mp3"), volume: 0.6);
+                        if (page < 4)
+                        {
+                          await soundPlayer.play(AssetSource("Sounds/page.mp3"), volume: 0.6);
+                        }
+                        else if (musicPlaying == false)
+                        {
+                          await soundPlayer.play(AssetSource("Sounds/hbdty.mp3"), volume: 0.3);
+                          setState(() {
+                            musicPlaying = true;
+                          });
+                        }
                         setState(() {
                           page += 1;
                         });
