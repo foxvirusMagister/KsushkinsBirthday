@@ -17,6 +17,8 @@ class _Letter extends State<Letter>
   double distance = 0;
   int _shakeCount = 0;
   late ShakeDetector _shakeDetector;
+  bool capOpened = false;
+  double bottleOpacity = 0;
 
   @override
   void initState()
@@ -29,13 +31,14 @@ class _Letter extends State<Letter>
           setState(() {
             _shakeCount += 1;
           },);
-          if (_shakeCount >= 10)
+          if (_shakeCount >= 3)
           {
             upplyTimers();
+            _shakeDetector.stopListening();
           }
         }
       },
-      shakeThresholdGravity: 2.7,
+      shakeThresholdGravity: 2.4,
       minimumShakeCount: 1,
       shakeSlopTimeMS: 500
     );
@@ -66,8 +69,19 @@ class _Letter extends State<Letter>
             transparency = 0;
           });
         }
+        Future.delayed(Duration(milliseconds: 1500), () async {showLetter();});
       }
     });
+  }
+
+  Future<void> showLetter() async
+  {
+    if (mounted)
+    {
+      setState(() {
+        bottleOpacity = 1;
+      },);
+    }
   }
 
   @override
@@ -91,18 +105,44 @@ class _Letter extends State<Letter>
             AnimatedOpacity(
               duration: Duration(milliseconds: 500),
               opacity: transparency,
-              child: Image.asset(
+              child: capOpened ? Image.asset(
                 "lib/Images/BottleCap.png",
                 height: 50,
                 width: 50,
-                alignment: .bottomCenter,),
+                alignment: .bottomCenter,) : Text(" "),
             ),
             Image.asset(
-              "lib/Images/bottle.png",
+              capOpened ? "lib/Images/bottle.png" : "lib/Images/bottleWithCap.png",
               height: 500,
               width: 1000),
-            
           ],
+        ),
+        Positioned.fill(
+          child: Center(
+            child: AnimatedOpacity(
+              opacity: bottleOpacity,
+              duration: Duration(milliseconds: 500),
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(image: AssetImage("lib/Images/Papirus.png",),
+                  fit: .fill)
+                ),
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: Padding(
+                  padding: const EdgeInsets.all(100.0),
+                  child: Text(
+                        "Привет мамочка! Я каждый день мечтал об этом слове, и вот он наконец, вспоминает об уходеее!",
+                        style: TextStyle(
+                          fontFamily: "Kosmos",
+                          fontSize: 24,
+                          color: const Color.fromARGB(255, 46, 8, 30)
+                        )
+                      ),
+                )
+              ),
+            ),
+          ),
         ),
         ]
       )
