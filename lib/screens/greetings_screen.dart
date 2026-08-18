@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shake/shake.dart';
 import 'dart:async';
+import 'package:audioplayers/audioplayers.dart';
 
 String text1 = "Привет, Ксюша, поздравляю тебя с днём рождения, хочу пожелать тебе, чтобы каждый день начинался с улыбки, рядом были только добрые люди, а сердце всегда знало, куда идти. Пусть сбываются мечты — даже те, о которых ты ещё никому не рассказывала. Оставайся такой же яркой, доброй и невероятной. Желаю тебе море поводов для радости, океан любви и горы денег. Пусть проблемы обходят стороной, настроение будет как после отпуска, а подруги — всегда на связи. Желаю тебе не бояться быть собой, смело идти к своим целям и помнить, что ты способна на всё. Пусть новая учеба станет временем больших возможностей, приятных перемен и искреннего счастья. Я горжусь тобой и всегда поддержу! Ты лучшая, и точка!(нажми что бы читать далее)";
 String text2 = "В самом начале лета, я и не думал, что этим летом найду поистине потрясающую подругу, если бы тогда Богдан не решил бы позвать меня погулять с вами, я бы так и остался бы сидеть дома, не знаю что бы щас было со мной если бы я выбрал другой ответ на его сообщение. Когда я пришёл на место встречи, и не обнаружив Богдана и Милю уж было подумал что бы пойти поесть шаурмы, но решил посидеть подольше, так как каждую минуту ожидал что они прийдут, и тут я заметил что какая то красивая девушка села на соседнюю лавку, тогда я подумал: ого, кто то так же как и я пришёл первее всех, через какое то время я начал предполагать что ты и есть третий неизвестный человек, что будет гулять с нами (нажми для 3 страницы)";
@@ -27,12 +28,14 @@ class _Letter extends State<Letter>
   bool capOpened = false;
   double bottleOpacity = 0;
   int page = 1;
+  final player = AudioPlayer();
+  final soundPlayer = AudioPlayer();
 
   @override
   void initState()
   {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_){});
+    WidgetsBinding.instance.addPostFrameCallback((_){preloadImages();});
     _shakeDetector = ShakeDetector.autoStart(
       onPhoneShake: (event) {
         if (mounted)
@@ -61,6 +64,8 @@ class _Letter extends State<Letter>
   {
     _shakeDetector.stopListening();
     super.dispose();
+    player.dispose();
+    soundPlayer.dispose();
   }
 
   Future<void> preloadImages() async
@@ -73,6 +78,9 @@ class _Letter extends State<Letter>
       await precacheImage(const AssetImage("lib/Images/SandAndWater.webp"), context);
       await precacheImage(const AssetImage("lib/Images/BottleCap.png"), context);
       await precacheImage(const AssetImage("lib/Images/Papirus.png"), context);
+      await precacheImage(const AssetImage("lib/Images/Papirus2.png"), context);
+
+      await player.play(AssetSource("lib/Sounds/Ocean.mp3"), volume: 0.3);
     }
   }
 
@@ -88,6 +96,7 @@ class _Letter extends State<Letter>
       else
       {
         _timer.cancel();
+        soundPlayer.play(AssetSource("lib/Sounds/cap.mp3"));
         if (mounted)
         {
           setState(() {
@@ -164,7 +173,7 @@ class _Letter extends State<Letter>
               duration: Duration(milliseconds: 500),
               child: Container(
                 decoration: BoxDecoration(
-                  image: DecorationImage(image: AssetImage("lib/Images/Papirus.png",),
+                  image: DecorationImage(image: page % 2 == 1 ? AssetImage("lib/Images/Papirus.png") : AssetImage("lib/Images/Papirus2.png"),
                   fit: .fill)
                 ),
                 width: MediaQuery.of(context).size.width,
@@ -182,6 +191,7 @@ class _Letter extends State<Letter>
                     onPressed: (){
                       if (bottleOpacity == 1)
                       {
+                        soundPlayer.play(AssetSource("lib/Sounds/page.mp3"));
                         setState(() {
                           page += 1;
                         });

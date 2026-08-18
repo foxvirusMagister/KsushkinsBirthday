@@ -36,6 +36,8 @@ dependencies:
   cupertino_icons: ^1.0.8
 
 dev_dependencies:
+  icons_launcher: ^3.1.0
+  rename_app: ^1.6.6
   flutter_test:
     sdk: flutter
 
@@ -52,6 +54,15 @@ dev_dependencies:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
+icons_launcher:
+  image_path: "lib/Images/heart.jpg"
+  platforms:
+    android:
+      enable: true
+
+config_name:
+  name: "Wonderful day For Wonderful girl"
+
 # The following section is specific to Flutter packages.
 flutter:
 
@@ -67,6 +78,11 @@ flutter:
     - lib/Images/BottleCap.png
     - lib/Images/bottleWithCap.png
     - lib/Images/Papirus.png
+    - lib/Images/Papirus2.webp
+    - lib/Images/heart.jpg
+    - lib/Sounds/Ocean.mp3
+    - lib/Sounds/cap.mp3
+    - lib/Sounds/page.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
