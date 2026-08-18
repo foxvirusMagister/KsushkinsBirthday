@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:shake/shake.dart';
 import 'dart:async';
 
+String text1 = "Привет, Ксюша, поздравляю тебя с днём рождения, хочу пожелать тебе, чтобы каждый день начинался с улыбки, рядом были только добрые люди, а сердце всегда знало, куда идти. Пусть сбываются мечты — даже те, о которых ты ещё никому не рассказывала. Оставайся такой же яркой, доброй и невероятной. Желаю тебе море поводов для радости, океан любви и горы денег. Пусть проблемы обходят стороной, настроение будет как после отпуска, а подруги — всегда на связи. Желаю тебе не бояться быть собой, смело идти к своим целям и помнить, что ты способна на всё. Пусть этот год станет временем больших возможностей, приятных перемен и искреннего счастья. Я горжусь тобой и всегда поддержу! Ты лучшая, и точка!";
+String text2 = "Yes";
+
+
 class Letter extends StatefulWidget // widget of loading screen
 {
   const Letter({super.key});
@@ -19,11 +23,13 @@ class _Letter extends State<Letter>
   late ShakeDetector _shakeDetector;
   bool capOpened = false;
   double bottleOpacity = 0;
+  int page = 1;
 
   @override
   void initState()
   {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){});
     _shakeDetector = ShakeDetector.autoStart(
       onPhoneShake: (event) {
         if (mounted)
@@ -35,6 +41,9 @@ class _Letter extends State<Letter>
           {
             upplyTimers();
             _shakeDetector.stopListening();
+            setState((){
+              capOpened = true;
+            });
           }
         }
       },
@@ -49,6 +58,19 @@ class _Letter extends State<Letter>
   {
     _shakeDetector.stopListening();
     super.dispose();
+  }
+
+  Future<void> preloadImages() async
+  {
+    if (mounted)
+    {
+      final context = this.context;
+      await precacheImage(const AssetImage("lib/Images/bottle.png"), context);
+      await precacheImage(const AssetImage("lib/Images/bottleWithCap.png"), context);
+      await precacheImage(const AssetImage("lib/Images/SandAndWater.webp"), context);
+      await precacheImage(const AssetImage("lib/Images/BottleCap.png"), context);
+      await precacheImage(const AssetImage("lib/Images/Papirus.png"), context);
+    }
   }
 
   Future<void> upplyTimers() async
@@ -117,6 +139,17 @@ class _Letter extends State<Letter>
               width: 1000),
           ],
         ),
+        Align(
+          alignment: .topCenter,
+          child: Text(
+            "Потряси телефон что бы открыть бутылку",
+            style: TextStyle(
+              color: const Color.fromARGB(255, 7, 10, 36),
+              fontFamily: "JulyMelt",
+              fontSize: 24
+            ),
+            ),
+        ),
         Positioned.fill(
           child: Center(
             child: AnimatedOpacity(
@@ -131,14 +164,27 @@ class _Letter extends State<Letter>
                 height: MediaQuery.of(context).size.height,
                 child: Padding(
                   padding: const EdgeInsets.all(100.0),
-                  child: Text(
-                        "Привет мамочка! Я каждый день мечтал об этом слове, и вот он наконец, вспоминает об уходеее!",
-                        style: TextStyle(
-                          fontFamily: "Kosmos",
-                          fontSize: 24,
-                          color: const Color.fromARGB(255, 46, 8, 30)
-                        )
-                      ),
+                  child: OutlinedButton(
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll(const Color.fromARGB(0, 0, 0, 0)),
+                      foregroundColor: WidgetStatePropertyAll(const Color.fromARGB(0, 0, 0, 0)),
+                      elevation: WidgetStatePropertyAll(0),
+                      shape: WidgetStatePropertyAll(BeveledRectangleBorder(borderRadius: BorderRadiusGeometry.all(Radius.zero)))
+                    ),
+                    onPressed: (){
+                      setState(() {
+                        page += 1;
+                      });
+                    },
+                    child: Text(
+                          page == 1 ? text1 : text2,
+                          style: TextStyle(
+                            fontFamily: "Kosmos",
+                            fontSize: 18,
+                            color: const Color.fromARGB(255, 46, 8, 30)
+                          )
+                        ),
+                  ),
                 )
               ),
             ),
